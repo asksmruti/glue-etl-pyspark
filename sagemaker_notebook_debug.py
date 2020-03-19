@@ -176,6 +176,10 @@ def transform_data(transform_data_frame):
     # df.select(df["checkpoints"]).filter(f.col("orderReference") == "RK2XVH3M").show()
 # Completely flatten the nested columns (Both Struct & Array)
     # flatten(df).show(1)
+# Rename Column
+    # df.withColumnRenamed("oldName", "newName")
+# Select columns
+    # df.select("id","name","time","city")
 
     #df = flatten(df)
     print("Row count after flattening: ", df.count())
@@ -195,7 +199,8 @@ def transform_data(transform_data_frame):
     '''
 # Replace unwanted strings from column names, this maybe useful only when you are flattening all columns
     for name in df.schema.names:
-        df = df.withColumnRenamed(name, name.replace('_string', ''))
+        df = df.withColumnRenamed(name, name.replace('_string', '')) \
+               .select(sorted(df.columns))
 
     logging.info("Row count after deleting duplicates: ", df.count())
     logging.info("Schema of dataframe after transformation: ", df.printSchema())

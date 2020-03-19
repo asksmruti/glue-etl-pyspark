@@ -192,6 +192,10 @@ def transform_data(transform_data_frame, enable_flatten):
     # df.select(df["checkpoints"]).filter(f.col("orderReference") == "RK2XVH3M").show()
 # Completely flatten the nested columns (Both Struct & Array)
     # flatten(df).show(1)
+# Rename Column
+    # df.withColumnRenamed("oldName", "newName")
+# Select columns
+   # df.select("id","name","time","city")
 
 
 # Actual transformation logic - This will change as per requirement
@@ -200,7 +204,8 @@ def transform_data(transform_data_frame, enable_flatten):
         df = flatten(df)
         # Replace unwanted strings from column names, this maybe useful only when you are flattening all columns
         for name in df.schema.names:
-            df = df.withColumnRenamed(name, name.replace('_string', ''))
+            df = df.withColumnRenamed(name, name.replace('_string', '')) \
+                   .select(sorted(df.columns))
         print("Row count after flattening: ", df.count())
 
 # Preferable way to flatten only required column 
